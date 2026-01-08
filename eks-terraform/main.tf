@@ -40,33 +40,30 @@ data "aws_security_group" "selected" {
 resource "aws_eks_cluster" "eks" {
   name     = "project-eks"
   role_arn = "arn:aws:iam::637423503105:role/c191399a4934151l13164519t1w637423-LabEksClusterRole-ZsGv6kSbuYaw"
-              
+
   vpc_config {
     subnet_ids         = [data.aws_subnet.subnet-1.id, data.aws_subnet.subnet-2.id]
     security_group_ids = [data.aws_security_group.selected.id]
   }
 
   tags = {
-    Name        = "doura-eks-cluster"
+    Name        = "riheb-eks-cluster"
     Environment = "dev"
     Terraform   = "true"
   }
 }
 
 # ----------------------------
-# EKS Node Group (uses existing IAM Worker Role)
+# EKS Node Group (uses existing IAM Role)
 # ----------------------------
 resource "aws_eks_node_group" "node-grp" {
   cluster_name    = aws_eks_cluster.eks.name
   node_group_name = "project-node-group"
-
-  # ⚠️ هنا لازم تستعمل Worker Role ARN وليس Cluster Role ARN
-  node_role_arn   = "arn:aws:iam::637423503105:role/labrole"   # ضع الـ Worker Role ARN الصحيح هنا
-
+  node_role_arn   = "arn:aws:iam::637423503105:role/c191399a4934151l13164519t1w637423-LabEksClusterRole-ZsGv6kSbuYaw"
   subnet_ids      = [data.aws_subnet.subnet-1.id, data.aws_subnet.subnet-2.id]
   capacity_type   = "ON_DEMAND"
   disk_size       = 20
-  instance_types  = ["t2.large"]
+  instance_types  = ["t2.micro"]
 
   labels = {
     env = "dev"
