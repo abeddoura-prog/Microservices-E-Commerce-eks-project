@@ -54,12 +54,15 @@ resource "aws_eks_cluster" "eks" {
 }
 
 # ----------------------------
-# EKS Node Group (uses existing IAM Role)
+# EKS Node Group (uses existing IAM Worker Role)
 # ----------------------------
 resource "aws_eks_node_group" "node-grp" {
   cluster_name    = aws_eks_cluster.eks.name
   node_group_name = "project-node-group"
-  node_role_arn   = "arn:aws:iam::637423503105:role/c191399a4934151l13164519t1w637423-LabEksClusterRole-ZsGv6kSbuYaw"
+
+  # ⚠️ هنا لازم تستعمل Worker Role ARN وليس Cluster Role ARN
+  node_role_arn   = "arn:aws:iam::637423503105:role/labrole"   # ضع الـ Worker Role ARN الصحيح هنا
+
   subnet_ids      = [data.aws_subnet.subnet-1.id, data.aws_subnet.subnet-2.id]
   capacity_type   = "ON_DEMAND"
   disk_size       = 20
