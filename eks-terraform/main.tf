@@ -47,7 +47,7 @@ resource "aws_eks_cluster" "eks" {
   }
 
   tags = {
-    Name        = "riheb-eks-cluster"
+    Name        = "doura-eks-cluster"
     Environment = "dev"
     Terraform   = "true"
   }
@@ -59,11 +59,11 @@ resource "aws_eks_cluster" "eks" {
 resource "aws_eks_node_group" "node-grp" {
   cluster_name    = aws_eks_cluster.eks.name
   node_group_name = "project-node-group"
-  node_role_arn   = "arn:aws:iam::637423503105:role/c191399a4934151l13164519t1w637423-LabEksClusterRole-ZsGv6kSbuYaw"
+  node_role_arn   = "arn:aws:iam::637423503105:role/c191399a4934151l13164519t1w637423503-LabEksNodeRole-YH2eRfRQC0X8"
   subnet_ids      = [data.aws_subnet.subnet-1.id, data.aws_subnet.subnet-2.id]
   capacity_type   = "ON_DEMAND"
   disk_size       = 20
-  instance_types  = ["t2.medium"]
+  instance_types  = ["t2.large"]
 
   labels = {
     env = "dev"
