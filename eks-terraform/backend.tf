@@ -7,8 +7,8 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "aluruarumullaa1"
-    key    = "k8/terraform.tfstate"
+    bucket = "doura-eks-bucket1-c8b5c833"   # استعملي هذا أو الثاني
+    key    = "eks/terraform.tfstate"        # مسار تخزين الـ state داخل الـ bucket
     region = "us-east-1"
   }
 
